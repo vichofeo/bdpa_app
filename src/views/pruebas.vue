@@ -1,5 +1,34 @@
 <template>
     <div>
+
+
+      <template>
+  <v-container fluid>
+    <v-row>
+      <v-col cols="3">
+        <v-combobox
+          v-model="select"
+          :items="items"
+          label="Select a favorite activity or create a new one"
+          
+        ></v-combobox>
+      </v-col>
+      <v-col cols="3">
+        <v-combobox
+          v-model="select"
+          :items="items"
+          label="I use chips"
+          
+          chips
+        ></v-combobox>
+      </v-col>
+      
+      {{select}}
+    </v-row>
+  </v-container>
+</template>
+
+
         <v-data-table
         :headers="headers"
         :items="desserts"
@@ -42,6 +71,11 @@
 export default {
   data () {
     return {
+      select: 'science',
+        items: [
+{  value: 'medium', text: 'science'},
+{ text: 'math', value: 'hard' }],
+        
         selectedRows: [],
       singleSelect: true,
       selected: [],
