@@ -19,9 +19,23 @@
     </v-navigation-drawer>
 
     <v-app-bar app clipped-left color="blue" dark>
+     
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
       <v-toolbar-title>ADMINISTRADOR</v-toolbar-title>
       <v-spacer></v-spacer>
+
+      
+
+    <div class="d-flex align-center">
+      <v-img
+        alt="Vuetify Logo"
+        class="shrink mr-2"
+        contain
+        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+        transition="scale-transition"
+        width="40"
+      />
+    </div>
     </v-app-bar>
   </div>
 </template>
