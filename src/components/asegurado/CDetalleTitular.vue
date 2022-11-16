@@ -12,7 +12,7 @@
                         <div class="col-sm-6 text-start fw-bold a">AFILIADO:{{ registrosEstadoBusqueda }}</div>
                         <div class="container text-left a">
                             <div class="row a">
-                                <div class="col-sm-6 text-start fw-bold a">ENTIDAD:</div>
+                                <div class="col-sm-6 text-start fw-bold a">{{rowSelected}} ENTIDAD:</div>
                                 <div class="col-sm-6 text-start a">{{ this.registro.codigo_entidad }}</div>
                             </div>
                             <div class="row a">
@@ -112,7 +112,7 @@ export default {
             plural: 'Afiliados Titulares',
             singular: 'Afilidao',
             registros: [],
-            registro: this.rowSelected,
+            registro: {},
             elementosPorPagina: 2,
             datosPaginados: [],
             paginaActual: 1,
@@ -133,11 +133,18 @@ export default {
         }
     },
 
+   
+  destroyed() {
     
-
+    console.log("Componente eliminado");
+  },
     mounted() {
+        
+        alert("nooo")
+
         this.verInfoDetallada();
     },
+    
     methods: {
 
         
@@ -147,7 +154,8 @@ export default {
         async verInfoDetallada(index) {
             console.log('index', index);
             let responseBusqueda = '';
-            //this.registro = [];
+            this.registro = this.rowSelected;
+            console.log(this.rowSelected)
             //this.registro = this.registros[index];
             const token = sessionStorage.getItem('token');
 
@@ -191,8 +199,8 @@ export default {
             this.$router.push("/registroTitular");
         }
 
-    }
-
+    },
+    
 
 }
 </script>

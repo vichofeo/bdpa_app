@@ -36,11 +36,12 @@
                         <v-spacer> </v-spacer>
 
                         
+                        <v-combobox v-model="comboBoxSelected" :items="comboBoxItems" label="CI/Pass" chips>
+                        </v-combobox>
 
                         <v-text-field v-model="messageSearch" :append-icon="'mdi-text-box-search'"
-                            clear-icon="mdi-close-circle" clearable label="Buscar" type="text" placeholder="Ej:544487"
-                            prefix="Doc:"  hide-details
-                            @click:clear="clearMessageSearch">
+                            clear-icon="mdi-close-circle" clearable label="BUscar" type="text" placeholder="Ej:544487"
+                            prefix="$" @click:append="sendMessageSearch" @click:clear="clearMessageSearch">
                         </v-text-field>
                     </v-bottom-navigation>
 
@@ -56,10 +57,8 @@
                 <v-card-text>
 
 
-                    <v-data-table dense 
-                    v-model="selected" :headers="headers" :items="desserts" :single-select=true
+                    <v-data-table dense v-model="selected" :headers="headers" :items="desserts" :single-select=true
                         item-key="id" show-select class="elevation-1" :loading="loadingTable"
-                        :search="messageSearch"
                         loading-text="Cargando.....  por favor espere">
 
 
@@ -158,7 +157,7 @@ export default {
             {
                 text: '#',
                 align: 'start',
-                filterable: false,
+                //filterable: false,
                 sortable: false,
                 value: 'id',
             },
@@ -171,11 +170,11 @@ export default {
             },
 
             //{ text: 'Documento', value: 'numero_documento' },            
-            { text: 'Nombre', value: 'nombres', filterable: false,},
-            { text: 'Entidad', value: 'codigo_entidad', filterable: false, },
-            { text: 'Tipo Asegurado', value: 'tipo_afiliacion', filterable: false, },
-            { text: 'Estado', value: 'estado' , filterable: false,},
-            { text: 'Fecha Estado', value: 'fecha_estado', filterable: false,},
+            { text: 'Nombre', value: 'nombres' },
+            { text: 'Entidad', value: 'codigo_entidad' },
+            { text: 'Tipo Asegurado', value: 'tipo_afiliacion' },
+            { text: 'Estado', value: 'estado' },
+            { text: 'Fecha Estado', value: 'fecha_estado' },
         ],
         desserts: [],
         loadingTable: false,
@@ -201,7 +200,11 @@ export default {
         this.getDatTipoDocumento();
     },
     methods: {
-       
+        sendMessageSearch() {
+            alert("enviando" + this.messageSearch + "---" + this.comboBoxSelected.id)
+
+            //this.clearMessageSearch()
+        },
         clearMessageSearch() {
             this.messageSearch = ''
         },
@@ -221,7 +224,14 @@ export default {
         },
 
 
-      
+        getColorDefinicionCaso(definicion) {
+            if (definicion == "SOSPECHOSO") return "orange";
+            if (definicion == "NEGATIVO") return "green";
+            if (definicion == "POSITIVO") return "red";
+            if (definicion == "INDETERMINADO") return "yellow";
+        },
+
+
         getDataAfiliado() {
             const token = sessionStorage.getItem('token');
             let url = "https://bdpa.asuss.gob.bo/api/v1/afiliado/ente-gestor";
@@ -256,7 +266,13 @@ export default {
             }
         },
 
-        
+        getDataAfiliadoByParameters() {
+            this.desserts = [];
+        },
+        limpiarGrid() {
+            this.patrametros = {};
+            this.getDataAfiliado();
+        },
         getColor(color) {
             if (color == "CESANTIA") return "red";
             if (color == "ACTIVO") return "green";
