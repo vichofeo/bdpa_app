@@ -2,6 +2,7 @@
   <div>
     <v-navigation-drawer v-model="drawerRight" app clipped left>
       <v-list dense>
+        <img src="/img/ssucbba.png"  width="100%"/>
         <v-list-item v-for="(menu, index) in menus" :key="index" :to="menu.url">
           <v-list-item-action>
             <v-icon>{{ menu.icono }}</v-icon>
@@ -18,24 +19,16 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left color="blue" dark>
+    <v-app-bar app clipped-left color="#1D62A1" dark>
      
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
-      <v-toolbar-title>ADMINISTRADOR</v-toolbar-title>
+      <v-toolbar-title>SGPA</v-toolbar-title>
       <v-spacer></v-spacer>
 
       
 
-    <div class="d-flex align-center">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-        transition="scale-transition"
-        width="40"
-      />
-    </div>
+      <img src="/img/ASUSS_logo_horiz.png"  height="100%"/>
+    
     </v-app-bar>
   </div>
 </template>
@@ -52,9 +45,10 @@ export default {
     right: false,
     left: false,
     menus: [
-      { titulo: "DASHBOARD", url: "/maps/dashboard", icono: "mdi-view-dashboard" },
-      { titulo: "UBICACION", url: "/maps/ubicacion", icono: "mdi-account" },
-      { titulo: "REPORTES", url: "/maps/reporte", icono: "mdi-gavel" }
+    { titulo: "INICIO", url: "/maps/dashboard", icono: "mdi-home" },
+      { titulo: "AFILIACION", url: "/maps/ubicacion", icono: "mdi-account" },
+      { titulo: "CONSULTAS", url: "/maps/reporte", icono: "mdi-note-search" },
+      { titulo: "AYUDA", url: "/maps/dashboard", icono: "mdi-comment-question" },
     ]
   }),
   methods: {

@@ -1,4 +1,4 @@
-export const urlEnd = "https://jsonplaceholder.typicode.com"//"http://localhost:3000"; //front
+export const urlEnd = "https://bdpa.asuss.gob.bo"//"http://localhost:3000"; //front
 export const urlLogin = urlEnd + "/login";
 
 //captura de cabeceras pa envio token
@@ -11,10 +11,13 @@ export const getHeader = function () {
     //cabeceras
     const headers = {
       Accept: "application/json",
-      //Authorization: "bearer" + auth.acces_token,
-     // Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`
     };
-    return headers;
+    const configuracion = {
+      headers,
+  };
+  return configuracion;
+    //return headers;
   } catch (e) {
     localStorage.removeItem("token");
   }

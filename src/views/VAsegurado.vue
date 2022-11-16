@@ -33,7 +33,7 @@
                         <v-row> </v-row>
                     </v-form>
                 </v-card-text>
-                -->
+            -->
             </v-card>
 
             <br />
@@ -73,6 +73,7 @@
 
 
                         <template v-slot:item.numero_documento="{ item }">
+                            
                             {{ `${item.tipo_documento}: ${item.numero_documento}` }}
                         </template>
                         <template v-slot:item.estado="{ item }">
@@ -112,7 +113,7 @@
                     
 
 <CRegistroTitularVue v-if="indexComponente == 1" />
-<!--<CDetalleTitular v-if="indexComponente == 2" :rowSelected="this.selected[0]"/>-->
+<CDetalleTitular v-if="indexComponente == 2" :rowSelected="this.selected[0]"/>
 
                 </v-card-text>
             </v-card>
@@ -123,17 +124,14 @@
     </div>
 </template>
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 import CRegistroTitularVue from '@/components/asegurado/CRegistroTitular.vue';
-//import CDetalleTitular from '@/components/asegurado/CDetalleTitular.vue';
-
-import * as servicios from "../services/DashboardService"
-
+import CDetalleTitular from '@/components/asegurado/CDetalleTitular.vue';
 export default {
     name: 'cPubli',
     components:{
         CRegistroTitularVue,
-       // CDetalleTitular,
+        CDetalleTitular,
     },
     data: () => ({
 
@@ -144,19 +142,27 @@ export default {
         tituloPopup: '',
         indexComponente: 0,
         headers: [
-            {
+        {
                 text: '#',
                 align: 'start',
                 //filterable: false,
                 sortable: false,
-                value: 'userId',
+                value: 'index',
+            },    
+        {
+                text: 'Documento',
+                align: 'start',
+                //filterable: false,
+                sortable: false,
+                value: 'numero_documento',
             },
-
-            //{ text: 'Documento', value: 'numero_documento' },
-            { text: 'Fecha Nacimiento', value: 'id' },
-            { text: 'Nombre', value: 'title' },
-            { text: 'Tipo Asegurado', value: 'completed' },
-            { text: 'Estado', value: 'id' },
+            
+            //{ text: 'Documento', value: 'numero_documento' },            
+            { text: 'Nombre', value: 'nombre' },
+            { text: 'Entidad', value: 'codigo_entidad' },   
+            { text: 'Tipo Asegurado', value: 'tipo_afiliacion' },
+            { text: 'Estado', value: 'estado' },
+            { text: 'Fecha Estado', value: 'fecha_estado' },
         ],
         desserts: [],
         loadingTable: false,
@@ -206,10 +212,37 @@ export default {
         },
 
 
-        async getDataAfiliado() {
+        getDataAfiliado() {
             const token = sessionStorage.getItem('token');
             let url = "https://bdpa.asuss.gob.bo/api/v1/afiliado/ente-gestor";
-            this.desserts = await servicios.obtieneDatos()
+            try {
+                axios.get(url, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                })
+                    .then(response => {
+                        this.desserts = response.data.datos.map((i, idx) => {
+          return {... i, index: idx + 1
+          };
+        });
+                        // this.getDataPagina(1);
+                        if (response.data.total <= 0) {
+                            Swal.fire(
+                                'Estimado Usuario',
+                                'No existen registros',
+                                'error'
+                            )
+                        }
+
+                    });
+            } catch (error) {
+                this.desserts = []
+                console.log('Hubo un error en la conexion a la BD');
+                Swal.fire(
+                    'Estimado Usuario',
+                    'Hubo un error en la conección, comúniquese con el administrador',
+                    'question'
+                )
+            }
         },
 
         getDataAfiliadoByParameters() {
