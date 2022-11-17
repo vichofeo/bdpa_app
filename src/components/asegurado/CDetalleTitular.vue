@@ -1,18 +1,17 @@
 <template>
     <section>
       
-        <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">INFORMACION DETALLADA - AFILIADOS
+        <div >
+                    <div >
+                        <h1 class=" fs-5 fw-bold" id="exampleModalLabel">INFORMACION DETALLADA - AFILIADOS
                             TITULARES</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body a">
+                    <div >
                         
                         <div class="col-sm-6 text-start fw-bold a">AFILIADO:{{ registrosEstadoBusqueda }}</div>
                         <div class="container text-left a">
                             <div class="row a">
-                                <div class="col-sm-6 text-start fw-bold a">{{rowSelected}} ENTIDAD:</div>
+                                <div class="col-sm-6 text-start fw-bold a">ENTIDAD:</div>
                                 <div class="col-sm-6 text-start a">{{ this.registro.codigo_entidad }}</div>
                             </div>
                             <div class="row a">
@@ -33,8 +32,8 @@
                             </div>
                             <div class="row a">
                                 <div class="col-sm-6 text-start fw-bold a">NOMBRE:</div>
-                                <div class="col-sm-6 text-start">{{ this.registro.nombres }}
-                                    {{ this.registro.primer_apellido }} {{ this.registro.segundo_apellido }}</div>
+                                <div class="col-sm-6 text-start">
+                                    {{ this.registro.primer_apellido }} {{ this.registro.segundo_apellido }} {{ this.registro.nombres }}</div>
                             </div><br>
                             <div class="alert alert-success" role="alert">
                                 Estado del Afiliado
@@ -79,7 +78,7 @@
                                         <td>{{ b.tipo_documento }}</td>
                                         <td>{{ b.complemento_documento }}</td>
                                         <td>{{ b.numero_documento }}</td>
-                                        <td>{{ b.nombres }}&nbsp;{{ b.primer_apellido }}&nbsp;{{ b.segundo_apellido }}</td>
+                                        <td>{{ b.primer_apellido }}&nbsp;{{ b.segundo_apellido }} {{ b.nombres }}</td>
                                         <td>{{ estadoBen }}</td>
                                         <td>{{ bajaBen }}</td>
                                         <td>{{ cesantiaBen }}</td>
@@ -89,9 +88,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
+                    
                 </div>
 
     </section>
@@ -136,26 +133,22 @@ export default {
    
   destroyed() {
     
-    console.log("Componente eliminado");
+    //console.log("Componente eliminado");
   },
     mounted() {
         
-        alert("nooo")
+        
 
         this.verInfoDetallada();
     },
     
     methods: {
-
         
-
-       
-
         async verInfoDetallada(index) {
-            console.log('index', index);
+           // console.log('index', index);
             let responseBusqueda = '';
             this.registro = this.rowSelected;
-            console.log(this.rowSelected)
+            //console.log(this.rowSelected)
             //this.registro = this.registros[index];
             const token = sessionStorage.getItem('token');
 

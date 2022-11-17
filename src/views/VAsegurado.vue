@@ -6,80 +6,100 @@
                 <v-card-title class="font-weight-black" style="color: #4175a9; font-size: 25px">
                     Afiliados Titulares
                 </v-card-title>
-                
+
                 <v-card-text>
-                    
-                        <v-bottom-navigation :value="valueNavButton" horizontal :background-color="colorNavButton" dark>
+
+                    <v-bottom-navigation :value="valueNavButton"  :background-color="colorNavButton" dark>
 
 
                         <v-btn color="success" dark class="mr-2" @click="openPopupDatos('NUEVO')"
                             v-show="bottonShowNuevo">
                             <span>Nuevo</span>
-                            <v-icon>mdi-history</v-icon>
+                            <v-icon>mdi-account-plus-outline</v-icon>
                         </v-btn>
                         <v-btn color="primary" dark class="mr-2" @click="openPopupDatos('DETALLES')"
                             v-show="bottonShowDetalles">
                             Detalles
+                            <v-icon>mdi-badge-account-outline</v-icon>
                         </v-btn>
 
                         <v-btn color="error" dark class="mr-2" @click="openPopupDatos('BAJA')" v-show="bottonShowBaja">
                             Baja
+                            <v-icon>mdi-account-remove-outline</v-icon>
                         </v-btn>
                         <v-btn color="blue-grey" dark class="mr-2" @click="openPopupDatos('AMPLIACION')"
                             v-show="bottonShowAmpliacion">
                             Ampliacion
+                            <v-icon>mdi-account-details-outline</v-icon>
                         </v-btn>
                         <v-btn dark class="mr-2" v-show="bottonShowBeneficiario" color="#EC945C"
                             @click="openPopupDatos('BENEFICIARIOS')">
                             Beneficiarios
+                            <v-icon>mdi-account-group-outline</v-icon>
                         </v-btn>
                         <v-spacer> </v-spacer>
 
-                        
 
-                        <v-text-field v-model="messageSearch" :append-icon="'mdi-text-box-search'"
+
+                        
+                        <v-text-field v-model="messageSearch" :append-icon="'mdi-account-search-outline'"
                             clear-icon="mdi-close-circle" clearable label="Buscar" type="text" placeholder="Ej:544487"
-                            prefix="Doc:"  hide-details
-                            @click:clear="clearMessageSearch">
+                            prefix="Doc:" hide-details @click:append="sendMessageSearch" @click:clear="clearMessageSearch">
                         </v-text-field>
                     </v-bottom-navigation>
 
-                        
-                    
+
+
                 </v-card-text>
-            
-                
+
+
             </v-card>
 
             <br />
             <v-card class="mx-auto">
                 <v-card-text>
 
+                    <div>
 
-                    <v-data-table dense 
-                    v-model="selected" :headers="headers" :items="desserts" :single-select=true
-                        item-key="id" show-select class="elevation-1" :loading="loadingTable"
-                        :search="messageSearch"
-                        loading-text="Cargando.....  por favor espere">
+                        <v-data-table dense :disable-sort=true :single-select=true v-model="selected" :headers="headers"
+                            :items="desserts" show-select hide-default-footer item-key="id" class="elevation-1"
+                            :loading="loadingTable" 
+                            loading-text="Cargando.....  por favor espere">
 
 
-                        <template v-slot:item.numero_documento="{ item }">
+                            <template v-slot:item.numero_documento="{ item }">
 
-                            {{ `${item.tipo_documento}: ${item.numero_documento}` }}
-                        </template>
-                        <template v-slot:item.estado="{ item }">
-                            <v-chip :color="getColor(item.estado.descripcion)" dark>
-                                {{ item.estado.descripcion }}
-                            </v-chip>
-                        </template>
-                        <template v-slot:item.nombres="{ item }">
-                            {{ `${item.primer_apellido} ${item.segundo_apellido} ${item.nombres}` }}
+                                {{ `${item.tipo_documento}: ${item.numero_documento}` }}
+                            </template>
+                            <template v-slot:item.estado="{ item }">
+                                <v-chip :color="getColor(item.estado.descripcion)" dark>
+                                    {{ item.estado.descripcion }}
+                                </v-chip>
+                            </template>
+                            <template v-slot:item.nombres="{ item }">
+                                {{ `${item.primer_apellido} ${item.segundo_apellido} ${item.nombres}` }}
 
-                        </template>
-                        <template v-slot:item.fecha_estado="{ item }">
-                            {{ getTipoFecha(item.estado) }}
-                        </template>
-                    </v-data-table>
+                            </template>
+                            <template v-slot:item.fecha_estado="{ item }">
+                                {{ getTipoFecha(item.estado) }}
+                            </template>
+                        </v-data-table>
+                        <v-pagination v-model="pageTableData" class="my-4" :length="pageTotal"
+                                                :total-visible="pageLimitRowTable" @input="getDataAfiliado">
+                                            </v-pagination>
+                        <div class="text-center">
+                            <v-container>
+                                <v-row justify="center">
+                                    <v-col cols="8">
+                                        <v-container class="max-width">
+                                           
+                                        </v-container>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </div>
+                    </div>
+
                 </v-card-text>
             </v-card>
         </template>
@@ -87,8 +107,9 @@
 
         <v-dialog v-model="dialog" fullscreen hide-overlay scrollable transition="dialog-bottom-transition"
             style="z-index: 10000">
+
             <v-card>
-                <v-toolbar dark color="primary">
+                <v-toolbar dark color="#1D62A1">
                     <v-btn icon dark @click="dialog = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
@@ -100,13 +121,15 @@
                         </v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
+
+
                 <v-card-text>
 
 
 
 
                     <CRegistroTitularVue v-if="indexComponente == 1" />
-                    <CDetalleTitular v-if="indexComponente == 2" :rowSelected="this.selected[0]" />
+                    <CDetalleTitular v-if="indexComponente == 2" :rowSelected="this.selected[0]" ref="Cdt900" />
 
                 </v-card-text>
             </v-card>
@@ -141,6 +164,10 @@ export default {
     },
 
     data: () => ({
+        pageTableData: 1,
+        pageTotal: 0,
+        pageLimitRowTable: 10,
+
         messageSearch: '',
         comboBoxSelected: { text: 'CI', id: 'CI' },
         comboBoxItems: [
@@ -171,11 +198,11 @@ export default {
             },
 
             //{ text: 'Documento', value: 'numero_documento' },            
-            { text: 'Nombre', value: 'nombres', filterable: false,},
+            { text: 'Nombre', value: 'nombres', filterable: false, },
             { text: 'Entidad', value: 'codigo_entidad', filterable: false, },
             { text: 'Tipo Asegurado', value: 'tipo_afiliacion', filterable: false, },
-            { text: 'Estado', value: 'estado' , filterable: false,},
-            { text: 'Fecha Estado', value: 'fecha_estado', filterable: false,},
+            { text: 'Estado', value: 'estado', filterable: false, },
+            { text: 'Fecha Estado', value: 'fecha_estado', filterable: false, },
         ],
         desserts: [],
         loadingTable: false,
@@ -191,48 +218,46 @@ export default {
         bottonShowBaja: false,
         bottonShowAmpliacion: false,
         bottonShowBeneficiario: false,
-        bottonShowDefinicion: false,
+        
         showProgress: false,
 
     }),
 
     mounted() {
         this.getDataAfiliado();
-        this.getDatTipoDocumento();
+
     },
     methods: {
-       
+
         clearMessageSearch() {
             this.messageSearch = ''
-        },
-        getDatTipoDocumento() {
-            this.tipoDocCombobox = [
-                {
-                    "id": 9000,
-                    "name": "CARNET DE IDENTIDAD",
-                    "codigo": "CI"
-                },
-                {
-                    "id": 9001,
-                    "name": "PASAPORTE",
-                    "codigo": "PASS"
-                }
-            ];
+            this.sendMessageSearch()
         },
 
 
-      
+        sendMessageSearch(){
+            this.pageTableData=1
+            this.getDataAfiliado()
+
+        },
+
         getDataAfiliado() {
+            this.selected = []
             const token = sessionStorage.getItem('token');
             let url = "https://bdpa.asuss.gob.bo/api/v1/afiliado/ente-gestor";
             try {
                 axios.get(url, {
+                    params: { page: this.pageTableData, limit: this.pageLimitRowTable, numero_documento_identidad: this.messageSearch },
                     headers: { "Authorization": `Bearer ${token}` }
                 })
                     .then(response => {
+                        this.pageTotal = response.data.total
+                        this.pageTotal = Math.ceil(this.pageTotal / this.pageLimitRowTable)
+
+
                         this.desserts = response.data.datos.map((i, idx) => {
                             return {
-                                ...i, id: idx + 1
+                                ...i, id: (idx + 1) + (this.pageLimitRowTable * (this.pageTableData - 1))
                             };
                         });
                         // this.getDataPagina(1);
@@ -256,7 +281,7 @@ export default {
             }
         },
 
-        
+
         getColor(color) {
             if (color == "CESANTIA") return "red";
             if (color == "ACTIVO") return "green";
@@ -288,6 +313,16 @@ export default {
                     break;
                 case 'DETALLES':
                     this.indexComponente = 2
+                    //if(!this.$refs.Cdt900.saludo)
+                    //this.$refs.Cdt900.saludo()
+                    try {
+                        this.$refs.Cdt900.verInfoDetallada()
+                    } catch (error) {
+                        console.log("Variable is Undefined")
+                    }
+
+
+
                     break;
                 case 'BAJA':
                     this.indexComponente = 3
@@ -301,48 +336,31 @@ export default {
                 default:
                     break;
             }
+
         },
     },
     watch: {
         selected(newSelect, oldSelect) {
-            let selectRegistro = newSelect[0];
-            if (!this.habilitarBotton) {
+                   
+            
                 if (newSelect.length > 0) {
-                    if (selectRegistro.estado == "DEFINIDO") {
-                        this.bottonShowAmpliacion = true;
-                        this.bottonShowBeneficiario = true;
-                        this.bottonShowDefinicion = false;
-                    } else {
-                        this.bottonShowAmpliacion = true;
-                        this.bottonShowBeneficiario = true;
-                        this.bottonShowDefinicion = true;
-                    }
-                }
-            } else {
-                if (newSelect.length > 0) {
-                    if (selectRegistro.estado == "DEFINIDO") {
-                        this.bottonShowNuevo = true;
-                        this.bottonShowDetalles = false;
-                        this.bottonShowBaja = false;
-                        this.bottonShowAmpliacion = true;
-                        this.bottonShowBeneficiario = true;
-                    } else {
-                        this.bottonShowNuevo = true;
+                    
+                        
                         this.bottonShowDetalles = true;
                         this.bottonShowBaja = true;
                         this.bottonShowAmpliacion = true;
                         this.bottonShowBeneficiario = true;
-                    }
+                    
                 } else {
-                    this.bottonShowNuevo = true;
                     this.bottonShowDetalles = false;
                     this.bottonShowBaja = false;
                     this.bottonShowAmpliacion = false;
                     this.bottonShowBeneficiario = false;
-                    this.bottonShowDefinicion = false;
+                    
                 }
-            }
+            
         },
     },
+   
 }
 </script>
