@@ -42,9 +42,14 @@
 
 
                         
-                        <v-text-field v-model="messageSearch" :append-icon="'mdi-account-search-outline'"
+                        <v-text-field v-model="messageSearch" 
+                        :append-icon="'mdi-account-search-outline'"
+                        :append-outer-icon="'mdi-send'"
                             clear-icon="mdi-close-circle" clearable label="Buscar" type="text" placeholder="Ej:544487"
-                            prefix="Doc:" hide-details @click:append="sendMessageSearch" @click:clear="clearMessageSearch">
+                            prefix="Doc:" hide-details 
+                            
+                            @click:append-outer="sendMessageSearch"
+                            @click:clear="clearMessageSearch">
                         </v-text-field>
                     </v-bottom-navigation>
 
