@@ -111,36 +111,32 @@
         </template>
 
 
-        <v-dialog v-model="dialog" fullscreen hide-overlay scrollable transition="dialog-bottom-transition"
-            style="z-index: 10000">
+     
+        <v-dialog 
+        v-model="dialog" fullscreen hide-overlay 
+        transition="dialog-bottom-transition" style="z-index: 10000">
+        
+            
+      <v-card>
+        <v-toolbar dark color="#1D62A1" dense>
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{ tituloPopup }} - AFILIADO</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark text @click="dialog = false">
+              Cerrar
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
 
-            <v-card>
-                <v-toolbar dark color="#1D62A1" dense>
-                    <v-btn icon dark @click="dialog = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>{{ tituloPopup }} - AFILIADO</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                        <v-btn dark text @click="dialog = false">
-                            cerrar
-                        </v-btn>
-                    </v-toolbar-items>
-                </v-toolbar>
-
-
-                <v-card-text>
-
-
-
-
-                    <CRegistroTitularVue v-if="indexComponente == 1" />
+        <v-divider></v-divider>
+        <CRegistroTitularVue v-if="indexComponente == 1" />
                     <CDetalleTitular v-if="indexComponente == 2" :rowSelected="this.selected[0]" ref="Cdt900" />
 
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-
+      </v-card>
+    </v-dialog>
 
 
     </div>
