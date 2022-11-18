@@ -53,7 +53,9 @@ export default {
       let dataEntrada = JSON.stringify(datos);
       console.log('dataEntrada',dataEntrada);
        //consumiendo servico de login
-      let url ="https://bdpa.asuss.gob.bo/api/v1/login";  
+       
+      //let url ="https://bdpa.asuss.gob.bo/api/v1/login";  
+      let url ="http://192.168.10.24:9080/assus-asegurado-api/api/v1/login"
         try {
           axios.post(url, dataEntrada, {
           headers: {

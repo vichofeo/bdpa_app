@@ -22,7 +22,7 @@
     <v-app-bar app clipped-left color="#1D62A1" dark>
      
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
-      <v-toolbar-title>SGPA</v-toolbar-title>
+      <v-toolbar-title>SGPA - Seguro Social Universitario CBBA</v-toolbar-title>
       <v-spacer></v-spacer>
 
       

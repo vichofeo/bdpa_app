@@ -45,8 +45,9 @@
                         <v-text-field v-model="messageSearch" 
                         :append-icon="'mdi-account-search-outline'"
                         :append-outer-icon="'mdi-send'"
-                            clear-icon="mdi-close-circle" clearable label="Buscar" type="text" placeholder="Ej:544487"
-                            prefix="Doc:" hide-details 
+                            clear-icon="mdi-close-circle" clearable 
+                            label="Buscar" type="text" placeholder="Ej:544487"
+                            prefix="Nro. Doc:" hide-details 
                             
                             @click:append-outer="sendMessageSearch"
                             @click:clear="clearMessageSearch">
@@ -77,7 +78,7 @@
                                 {{ `${item.tipo_documento}: ${item.numero_documento}` }}
                             </template>
                             <template v-slot:item.estado="{ item }">
-                                <v-chip :color="getColor(item.estado.descripcion)" dark>
+                                <v-chip :color="getColor(item.estado.descripcion)" dark >
                                     {{ item.estado.descripcion }}
                                 </v-chip>
                             </template>
@@ -114,7 +115,7 @@
             style="z-index: 10000">
 
             <v-card>
-                <v-toolbar dark color="#1D62A1">
+                <v-toolbar dark color="#1D62A1" dense>
                     <v-btn icon dark @click="dialog = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
@@ -250,6 +251,7 @@ export default {
             this.selected = []
             const token = sessionStorage.getItem('token');
             let url = "https://bdpa.asuss.gob.bo/api/v1/afiliado/ente-gestor";
+            //let url = "http://192.168.10.24:9080/assus-asegurado-api/api/v1/afiliado/ente-gestor";
             try {
                 axios.get(url, {
                     params: { page: this.pageTableData, limit: this.pageLimitRowTable, numero_documento_identidad: this.messageSearch },
